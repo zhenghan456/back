@@ -1,0 +1,12 @@
+spring:
+   datasource:
+     url: jdbc:mysql://sh-cynosdbmysql-grp-0rxaoc54.sql.tencentcdb.com:26103/scenery_system
+     username: root
+     password: Zhdsg512292589
+     driver-class-name:  com.mysql.cj.jdbc.Driver
+
+# 开发环境配置
+server:
+  port: 8080         # 服务器的HTTP端口
+  address: 0.0.0.0    # 允许局域网访问
+

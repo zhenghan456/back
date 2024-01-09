@@ -35,4 +35,8 @@ public class SceneryPojo {
     }
 
     public String getUserid(){return this.userid;}
+    public String getSceneryid(){return this.sceneryid;}
+    public String getTime(){return this.time;}
+    public String getLongitude(){return this.longitude;}
+    public String getLatitude(){return this.latitude;}
 }

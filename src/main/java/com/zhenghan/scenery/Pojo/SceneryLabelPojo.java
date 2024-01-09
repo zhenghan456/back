@@ -17,4 +17,5 @@ public class SceneryLabelPojo {
     private String sceneryid;
     @TableField("label")
     private String label;
+    public String getSceneryid(){return this.sceneryid;}
 }

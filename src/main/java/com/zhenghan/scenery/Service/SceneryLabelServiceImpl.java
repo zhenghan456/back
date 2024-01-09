@@ -19,4 +19,9 @@ public class SceneryLabelServiceImpl {
         wrapper.eq("sceneryid",id);
         return sceneryLabelDao.selectList(wrapper);
     }
+    public List<SceneryLabelPojo> searchscenery(String search){
+        QueryWrapper<SceneryLabelPojo> wrapper=new QueryWrapper<>();
+        wrapper.like("label",search);
+        return sceneryLabelDao.selectList(wrapper);
+    }
 }

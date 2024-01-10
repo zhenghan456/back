@@ -24,4 +24,7 @@ public class SceneryLabelServiceImpl {
         wrapper.like("label",search);
         return sceneryLabelDao.selectList(wrapper);
     }
+    public void add(String label,String sceneryid){
+        sceneryLabelDao.insert(new SceneryLabelPojo(label,sceneryid));
+    }
 }

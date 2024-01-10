@@ -50,7 +50,7 @@ public class SceneryController {
     public void upload(@RequestParam(value = "file") MultipartFile[] files,
                        @RequestParam("sceneryname") String sceneryname,
                        @RequestParam("description") String description,
-                       @RequestParam("label") List<String> label,
+                       @RequestParam("label") List<String> labels,
                        @RequestParam("longitude") String longitude,
                        @RequestParam("latitude") String latitude,
                        @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String time,
@@ -62,6 +62,9 @@ public class SceneryController {
         sceneryService.add(sceneryid,sceneryname,description,time,longitude,latitude,userid);
         if(isrecall.equals("yes")){
            recallService.add(sceneryid,userid);
+        }
+        for(String label :labels){
+            sceneryLabelService.add(label,sceneryid);
         }
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
         String uploadPathImg = "src/main/java/com/zhenghan/scenery/images/";

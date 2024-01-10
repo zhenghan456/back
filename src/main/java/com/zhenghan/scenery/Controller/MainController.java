@@ -34,11 +34,11 @@ public class MainController {
     @RequestMapping(value = "/main",method = RequestMethod.GET)
     public String maininformation(HttpServletRequest req,
                                   @RequestParam("userid") String userid,
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z")String now) throws ParseException {
+                                  @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z")String date) throws ParseException {
         Long max=sceneryService.maxid();
-        List<Object> list = new ArrayList<>();
         List<Object> resultList=new ArrayList<>();
         for(int i=1;i<=5;i++) {
+            List<Object> list = new ArrayList<>();
             Random rand = new Random();
             int id = rand.nextInt(Math.toIntExact(max)) + 1;
             String sceneryid=Integer.toString(id);
@@ -49,7 +49,7 @@ public class MainController {
             Labels list4 = new Labels(sceneryLabelService.findlabel(sceneryid));
             issupport is = scenerySupportService.issupport(sceneryid, userid);
             String then=list1.getTime();
-            Datejudge datejudge =sceneryService.datejudge(now,then);
+            Datejudge datejudge =sceneryService.datejudge(date,then);
             list.clear();
             list.add(list1);
             list.add(list2);

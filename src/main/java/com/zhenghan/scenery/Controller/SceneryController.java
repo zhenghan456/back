@@ -65,7 +65,7 @@ public class SceneryController {
            recallService.add(sceneryid,userid);
         }
         for(String label :labels){
-            sceneryLabelService.add(label,sceneryid);
+            sceneryLabelService.add(sceneryid,label);
         }
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
         String uploadPathImg = "src/main/java/com/zhenghan/scenery/images/";
@@ -89,7 +89,7 @@ public class SceneryController {
     public String sceneryinformation(HttpServletRequest request,
                                      @RequestParam("sceneryid") String sceneryid,
                                      @RequestParam("userid") String userid,
-                                     @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String now) throws ParseException {
+                                     @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String date) throws ParseException {
         SceneryPojo list1 = sceneryService.findSceneryById(sceneryid);
         String uploader = list1.getUserid();
         UserPojo list2 = userService.findUserById(uploader);
@@ -97,7 +97,7 @@ public class SceneryController {
         Labels list4=new Labels(sceneryLabelService.findlabel(sceneryid));
         issupport is = scenerySupportService.issupport(sceneryid, userid);
         String then=list1.getTime();
-        Datejudge datejudge =sceneryService.datejudge(now,then);
+        Datejudge datejudge =sceneryService.datejudge(date,then);
         List<Object> list = new ArrayList<>();
         list.add(list1);
         list.add(list2);

@@ -11,4 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Main {
     private List<Object> main;
+//    public Main(){}
+//    public Main(List<Object> main){this.main=main;}
+    public void setMain(List<Object> main){this.main=main;}
 }

@@ -34,7 +34,7 @@ public class SearchController {
     @Autowired
     RecallServiceImpl recallService;
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String now,
+    public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String date,
                                     @RequestParam("longitude") String longitude,
                                     @RequestParam("latitude") String latitude,
                                     @RequestParam("timerequire") String timerequire,
@@ -57,12 +57,12 @@ public class SearchController {
         int timer=Integer.parseInt(timerequire);
        // List<String> deletelist=new ArrayList<>();
         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);//输入的被转化的时间格式
-        Date date1 = dff.parse(now);
+        Date date1 = dff.parse(date);
         Iterator<String> iterator=list.iterator();
         while(iterator.hasNext()){
             String id=iterator.next();
-            String date=sceneryService.getTime(id);
-            Date date2 = dff.parse(date);
+            String date0=sceneryService.getTime(id);
+            Date date2 = dff.parse(date0);
             int day=(int)DateUtil.between(date1, date2, DateUnit.DAY);
 //            Long hour=DateUtil.between(date1, date2, DateUnit.HOUR);
 //            Long minute=DateUtil.between(date1,date2,DateUnit.MINUTE);
@@ -82,9 +82,9 @@ public class SearchController {
             double dist= GeoUtil.GetDistance(jingdu,weidu, jingdu2, weidu2);
             if(dist>distance) iterator1.remove();
         }
-        List<Object> scenerylist = new ArrayList<>();
         List<Object> resultList=new ArrayList<>();
         for(String sceneryid : list){
+            List<Object> scenerylist = new ArrayList<>();
             SceneryPojo scenerylist1 = sceneryService.findSceneryById(sceneryid);
             String uploader = scenerylist1.getUserid();
             UserPojo scenerylist2 = userService.findUserById(uploader);
@@ -92,7 +92,7 @@ public class SearchController {
             Labels scenerylist4 = new Labels(sceneryLabelService.findlabel(sceneryid));
             issupport is = scenerySupportService.issupport(sceneryid, userid);
             String then=scenerylist1.getTime();
-            Datejudge datejudge =sceneryService.datejudge(now,then);
+            Datejudge datejudge =sceneryService.datejudge(date,then);
             scenerylist.clear();
             scenerylist.add(scenerylist1);
             scenerylist.add(scenerylist2);

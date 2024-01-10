@@ -8,5 +8,10 @@ spring:
 server:
   port: 8080         # 服务器的HTTP端口
   address: 0.0.0.0    # 允许局域网访问
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 

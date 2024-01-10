@@ -104,9 +104,33 @@ public class SearchController {
             resultList.add(result);
         }
         return JSON.toJSONString(resultList);
-
-
-
-
     }
+
+    @RequestMapping(value = "/changeSearch", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
+    public String searchinformation(
+            @RequestParam("search") String search,
+            HttpServletRequest req ) throws ParseException {
+        List<String> list=new ArrayList<>();
+        List<SceneryPojo> list1=sceneryService.searchscenery(search);
+        for(SceneryPojo scenery : list1){
+            list.add(scenery.getSceneryid());
+        }
+        List<SceneryLabelPojo> list2=sceneryLabelService.searchscenery(search);
+        for(SceneryLabelPojo scenery : list2){
+            String sceneryid=scenery.getSceneryid();
+            boolean isrepeat=false;
+            for(String id : list) if(id.equals(sceneryid)) isrepeat=true;
+            if(!isrepeat) list.add(sceneryid);
+        }
+        List<Object> resultList=new ArrayList<>();
+        for(String sceneryid : list){
+            SceneryPojo scenerylist1 = sceneryService.findSceneryById(sceneryid);
+            resultList.add(scenerylist1.getSceneryname());
+        }
+
+        return JSON.toJSONString(resultList);
+    }
+
+
+
 }

@@ -14,7 +14,7 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
-        String uploadPathImg="src/main/java/com/zhenghan/scenery/images/";
+        String uploadPathImg="src/main/resources/static/images/";
         //重写方法
         //修改tomcat 虚拟映射
         registry.addResourceHandler("/images/**")

@@ -68,7 +68,7 @@ public class SceneryController {
             sceneryLabelService.add(sceneryid,label);
         }
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
-        String uploadPathImg = "src/main/java/com/zhenghan/scenery/images/";
+        String uploadPathImg = "E:\\2023_2_courageDesign\\rjgc\\traveller-back\\src\\main\\resources\\static\\images\\";
         for(MultipartFile file : files) {
             String fileName = System.currentTimeMillis() + file.getOriginalFilename();
             String upload_file_dir = uploadPathImg;//注意这里需要添加目录信息

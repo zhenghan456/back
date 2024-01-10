@@ -45,7 +45,8 @@ public class SceneryController {
     SceneryLabelServiceImpl sceneryLabelService;
     @Autowired
     RecallServiceImpl recallService;
-
+    @Autowired
+    UploadServiceImpl uploadService;
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public void upload(@RequestParam(value = "file") MultipartFile[] files,
                        @RequestParam("sceneryname") String sceneryname,
@@ -66,6 +67,7 @@ public class SceneryController {
         for(String label :labels){
             sceneryLabelService.add(label,sceneryid);
         }
+        uploadService.add(sceneryid,userid);
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
         String uploadPathImg = "src/main/java/com/zhenghan/scenery/images/";
         for(MultipartFile file : files) {

@@ -1,19 +1,17 @@
 package com.zhenghan.scenery.Controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.zhenghan.scenery.Labels;
-import com.zhenghan.scenery.Main;
-import com.zhenghan.scenery.Pictrues;
+import com.zhenghan.scenery.*;
 import com.zhenghan.scenery.Pojo.SceneryPojo;
 import com.zhenghan.scenery.Pojo.UserPojo;
 import com.zhenghan.scenery.Service.*;
-import com.zhenghan.scenery.issupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,7 +34,7 @@ public class MainController {
     @RequestMapping(value = "/main",method = RequestMethod.GET)
     public String maininformation(HttpServletRequest req,
                                   @RequestParam("userid") String userid,
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z")String time){
+                                  @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z")String now) throws ParseException {
         Long max=sceneryService.maxid();
         List<Object> list = new ArrayList<>();
         List<Object> resultList=new ArrayList<>();
@@ -50,12 +48,15 @@ public class MainController {
             Pictrues list3 = new Pictrues(pictruesService.findPictruesById(sceneryid));
             Labels list4 = new Labels(sceneryLabelService.findlabel(sceneryid));
             issupport is = scenerySupportService.issupport(sceneryid, userid);
+            String then=list1.getTime();
+            Datejudge datejudge =sceneryService.datejudge(now,then);
             list.clear();
             list.add(list1);
             list.add(list2);
             list.add(list3);
             list.add(list4);
             list.add(is);
+            list.add(datejudge);
             Main result=new Main(list);
             resultList.add(result);
         }

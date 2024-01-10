@@ -34,7 +34,7 @@ public class SearchController {
     @Autowired
     RecallServiceImpl recallService;
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String time,
+    public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String now,
                                     @RequestParam("longitude") String longitude,
                                     @RequestParam("latitude") String latitude,
                                     @RequestParam("timerequire") String timerequire,
@@ -57,7 +57,7 @@ public class SearchController {
         int timer=Integer.parseInt(timerequire);
        // List<String> deletelist=new ArrayList<>();
         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);//输入的被转化的时间格式
-        Date date1 = dff.parse(time);
+        Date date1 = dff.parse(now);
         Iterator<String> iterator=list.iterator();
         while(iterator.hasNext()){
             String id=iterator.next();
@@ -91,12 +91,15 @@ public class SearchController {
             Pictrues scenerylist3 = new Pictrues(pictruesService.findPictruesById(sceneryid));
             Labels scenerylist4 = new Labels(sceneryLabelService.findlabel(sceneryid));
             issupport is = scenerySupportService.issupport(sceneryid, userid);
+            String then=scenerylist1.getTime();
+            Datejudge datejudge =sceneryService.datejudge(now,then);
             scenerylist.clear();
             scenerylist.add(scenerylist1);
             scenerylist.add(scenerylist2);
             scenerylist.add(scenerylist3);
             scenerylist.add(scenerylist4);
             scenerylist.add(is);
+            scenerylist.add(datejudge);
             Main result=new Main(scenerylist);
             resultList.add(result);
         }

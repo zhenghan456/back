@@ -20,4 +20,13 @@ public class ScenerySupportServiceImpl {
         else is.setIssupport("no");
         return is;
     }
+    public void support(String sceneryid,String userid){
+        scenerySupportDao.insert(new ScenerySupportPojo(sceneryid,userid));
+    }
+    public void unsupport(String sceneryid,String userid){
+        QueryWrapper<ScenerySupportPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("sceneryid",sceneryid);
+        wrapper.eq("userid",userid);
+        scenerySupportDao.delete(wrapper);
+    }
 }

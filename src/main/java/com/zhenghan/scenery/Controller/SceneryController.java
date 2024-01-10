@@ -3,6 +3,7 @@ package com.zhenghan.scenery.Controller;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.zhenghan.scenery.Dao.ScenerySupportDao;
+import com.zhenghan.scenery.Datejudge;
 import com.zhenghan.scenery.Labels;
 import com.zhenghan.scenery.Pictrues;
 import com.zhenghan.scenery.Pojo.PictruesPojo;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,8 +47,6 @@ public class SceneryController {
     SceneryLabelServiceImpl sceneryLabelService;
     @Autowired
     RecallServiceImpl recallService;
-    @Autowired
-    UploadServiceImpl uploadService;
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public void upload(@RequestParam(value = "file") MultipartFile[] files,
                        @RequestParam("sceneryname") String sceneryname,
@@ -54,20 +54,19 @@ public class SceneryController {
                        @RequestParam("label") List<String> labels,
                        @RequestParam("longitude") String longitude,
                        @RequestParam("latitude") String latitude,
-                       @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String time,
+                       @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String date,
                        @RequestParam("isrecall") String isrecall,
                        @RequestParam("userid") String userid,
                        HttpServletRequest req) throws IOException {
         Long id=sceneryService.maxid()+1;
         String sceneryid=id.toString();
-        sceneryService.add(sceneryid,sceneryname,description,time,longitude,latitude,userid);
+        sceneryService.add(sceneryid,sceneryname,description,date,longitude,latitude,userid);
         if(isrecall.equals("yes")){
            recallService.add(sceneryid,userid);
         }
         for(String label :labels){
             sceneryLabelService.add(label,sceneryid);
         }
-        uploadService.add(sceneryid,userid);
         //String uploadPathImg="C:\\Users\\admin\\IdeaProjects\\src\\main\\java\\com\\zhenghan\\scenery\\images\\";
         String uploadPathImg = "src/main/java/com/zhenghan/scenery/images/";
         for(MultipartFile file : files) {
@@ -89,20 +88,38 @@ public class SceneryController {
     @ResponseBody
     public String sceneryinformation(HttpServletRequest request,
                                      @RequestParam("sceneryid") String sceneryid,
-                                     @RequestParam("userid") String userid) {
+                                     @RequestParam("userid") String userid,
+                                     @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z") String now) throws ParseException {
         SceneryPojo list1 = sceneryService.findSceneryById(sceneryid);
         String uploader = list1.getUserid();
         UserPojo list2 = userService.findUserById(uploader);
         Pictrues list3=new Pictrues(pictruesService.findPictruesById(sceneryid));
         Labels list4=new Labels(sceneryLabelService.findlabel(sceneryid));
         issupport is = scenerySupportService.issupport(sceneryid, userid);
+        String then=list1.getTime();
+        Datejudge datejudge =sceneryService.datejudge(now,then);
         List<Object> list = new ArrayList<>();
         list.add(list1);
         list.add(list2);
         list.add(list3);
         list.add(list4);
         list.add(is);
+        list.add(datejudge);
         String result = JSON.toJSONString(list);
         return result;
+    }
+    @RequestMapping(value ="/support",method = RequestMethod.POST)
+    public void supportchange(HttpServletRequest req,
+                              @RequestParam("support") String support,
+                              @RequestParam("userid") String userid,
+                              @RequestParam("sceneryid") String sceneryid){
+        if(support.equals("yes")){
+            sceneryService.support(sceneryid);
+            scenerySupportService.support(sceneryid,userid);
+        }
+        else{
+            sceneryService.unsupport(sceneryid);
+            scenerySupportService.unsupport(sceneryid,userid);
+        }
     }
 }

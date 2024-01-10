@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value="scenery_label")
+@TableName(value="scenerylabel")
 public class SceneryLabelPojo {
     @TableField("sceneryid")
     private String sceneryid;

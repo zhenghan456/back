@@ -3,6 +3,7 @@ package com.zhenghan.scenery;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zhenghan.scenery.Pojo.SceneryLabelPojo;
 import com.zhenghan.scenery.Pojo.SceneryPojo;
@@ -89,6 +90,7 @@ class SceneryApplicationTests {
         for(int i=1;i<=5;i++) {
             Random rand = new Random();
             int id = rand.nextInt(Math.toIntExact(max)) + 1;
+            System.out.println(id);
             String sceneryid=Integer.toString(id);
             SceneryPojo list1 = sceneryService.findSceneryById(sceneryid);
             String uploader = list1.getUserid();
@@ -125,13 +127,17 @@ class SceneryApplicationTests {
         System.out.println("两个时间相差 "+DateUtil.between(date1, date2, DateUnit.SECOND)+" 秒");
     }
     @Test
-    void contextLoads4(){
-        double jingdu1=116.43423200000001;
-        double jingdu2=116.43423200000001;
-        double weidu1=39.908182;
-        String weidu="-39.908182";
-        double weidu2=Double.parseDouble(weidu);
-        double dist=GeoUtil.GetDistance(jingdu1,weidu1, jingdu2, weidu2);
-        System.out.println(dist);
+    void contextLoads4() throws ParseException {
+        String support="no";
+        String sceneryid="1";
+        String userid="1";
+        if(support.equals("yes")){
+            sceneryService.support(sceneryid);
+            scenerySupportService.support(sceneryid,userid);
+        }
+        else{
+            sceneryService.unsupport(sceneryid);
+            scenerySupportService.unsupport(sceneryid,userid);
+        }
     }
 }

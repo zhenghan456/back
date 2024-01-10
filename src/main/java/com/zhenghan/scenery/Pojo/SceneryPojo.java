@@ -39,4 +39,8 @@ public class SceneryPojo {
     public String getTime(){return this.time;}
     public String getLongitude(){return this.longitude;}
     public String getLatitude(){return this.latitude;}
+    public Integer getSupport(){return this.support;}
+
+    public void setSupport(Integer support) {this.support=support;
+    }
 }

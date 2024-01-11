@@ -17,7 +17,7 @@ public class RecallPojo {
     private String sceneryid;
     @TableField("userid")
     private String userid;
-
+    public String getSceneryid(){return this.sceneryid;}
 //    public RecallPojo(String sceneryid, String userid) {
 //        this.sceneryid=sceneryid;this.userid=userid;
 //    }

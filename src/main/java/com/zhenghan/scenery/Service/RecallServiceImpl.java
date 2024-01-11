@@ -9,6 +9,7 @@ import com.zhenghan.scenery.Pojo.RecallPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,5 +18,16 @@ public class RecallServiceImpl {
     RecallDao recallDao;
     public void add(String sceneryid,String userid){
         recallDao.insert(new RecallPojo(sceneryid,userid));
+    }
+    public List<String> find(String userid){
+        QueryWrapper<RecallPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("userid",userid);
+        List<RecallPojo> recalls=recallDao.selectList(wrapper);
+        List<String> ids=new ArrayList<>();
+        for(RecallPojo recall :recalls){
+            String id=recall.getSceneryid();
+            ids.add(id);
+        }
+        return ids;
     }
 }

@@ -6,9 +6,7 @@ import com.zhenghan.scenery.Pojo.*;
 import com.zhenghan.scenery.Route;
 import com.zhenghan.scenery.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +32,7 @@ public class UserController {
     RouteServiceImpl routeService;
     @Autowired
     RouteSceneryServiceImpl routeSceneryService;
+    @RequestMapping(value = "/user", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
     public String userinformation(@RequestParam("userid") String userid,
                                   HttpServletRequest req){
         UserPojo list1=userService.findUserById(userid);
@@ -47,6 +46,7 @@ public class UserController {
         }
                 return JSON.toJSONString(list);
     }
+    @RequestMapping(value = "/supportinformation", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
     public String support(@RequestParam("userid") String userid,
                           HttpServletRequest req){
         List<String> ids=scenerySupportService.findById(userid);
@@ -58,6 +58,7 @@ public class UserController {
         }
         return JSON.toJSONString(list);
     }
+    @RequestMapping(value = "/favorites", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
     public String favorites(@RequestParam("userid")String userid,
                             HttpServletRequest req){
        List<String> routeids=routeService.findById(userid);

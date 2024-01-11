@@ -139,18 +139,16 @@ class SceneryApplicationTests {
     @Test
     void contextLoads4() throws ParseException {
         String userid="1";
-        List<String> ids=recallService.find(userid);
-        List<Object> result=new ArrayList<>();
-        for(String id :ids){
-            List<Object> list=new ArrayList<>();
-            SceneryPojo scenery=sceneryService.findSceneryById(id);
-            List<PictruesPojo> pictrues=pictruesService.findPictruesById(id);
-            Pictrues pictrues1=new Pictrues(pictrues);
-            list.add(scenery);
-            list.add(pictrues1);
-            Main main=new Main(list);
-            result.add(main);
+        String routename="山水甲天下";
+        List<String> sceneryids= new ArrayList<>();
+        sceneryids.add("2");
+        sceneryids.add("3");
+        sceneryids.add("4");
+        Long id=routeService.maxid()+1;
+        String routeid=id.toString();
+        routeService.add(routeid,userid,routename);
+        for(String sceneryid :sceneryids){
+            routeSceneryService.add(routeid,sceneryid);
         }
-        System.out.println(JSON.toJSONString(result));
     }
 }

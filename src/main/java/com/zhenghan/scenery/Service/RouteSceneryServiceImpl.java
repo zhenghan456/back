@@ -13,6 +13,7 @@ import java.util.List;
 public class RouteSceneryServiceImpl {
     @Autowired
     RouteSceneryDao routeSceneryDao;
+    public void add(String routeid,String sceneryid){routeSceneryDao.insert(new RouteSceneryPojo(routeid,sceneryid));}
     public List<String> findByid(String routeid){
         QueryWrapper<RouteSceneryPojo> wrapper=new QueryWrapper<>();
         wrapper.eq("routeid",routeid);

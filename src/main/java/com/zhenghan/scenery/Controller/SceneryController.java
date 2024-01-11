@@ -2,14 +2,12 @@ package com.zhenghan.scenery.Controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zhenghan.scenery.Dao.ScenerySupportDao;
 import com.zhenghan.scenery.Datejudge;
 import com.zhenghan.scenery.Labels;
 import com.zhenghan.scenery.Pictrues;
-import com.zhenghan.scenery.Pojo.PictruesPojo;
-import com.zhenghan.scenery.Pojo.SceneryLabelPojo;
-import com.zhenghan.scenery.Pojo.SceneryPojo;
-import com.zhenghan.scenery.Pojo.UserPojo;
+import com.zhenghan.scenery.Pojo.*;
 import com.zhenghan.scenery.Service.*;
 import com.zhenghan.scenery.issupport;
 import lombok.Value;
@@ -123,5 +121,11 @@ public class SceneryController {
         }
         String num=sceneryService.getSupport(sceneryid);
         return num;
+    }
+    @RequestMapping(value ="/daka",method = RequestMethod.POST)
+    public void daka(HttpServletRequest req,
+                       @RequestParam("userid")String userid,
+                       @RequestParam("sceneryid")String sceneryid){
+        recallService.add(sceneryid,userid);
     }
 }

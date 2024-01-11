@@ -13,6 +13,7 @@ import java.util.List;
 public class RouteServiceImpl {
     @Autowired
     RouteDao routeDao;
+    public void add(String routeid,String userid,String routename){routeDao.insert(new RoutePojo(routeid,userid,routename));}
     public List<String> findById(String userid){
         QueryWrapper<RoutePojo> wrapper=new QueryWrapper<>();
         wrapper.eq("userid",userid);
@@ -30,4 +31,5 @@ public class RouteServiceImpl {
         List<RoutePojo> routes=routeDao.selectList(wrapper);
         return routes;
     }
+    public Long maxid(){return routeDao.selectCount(new QueryWrapper<>() );}
 }

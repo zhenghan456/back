@@ -33,6 +33,10 @@ public class SearchController {
     SceneryLabelServiceImpl sceneryLabelService;
     @Autowired
     RecallServiceImpl recallService;
+    @Autowired
+    RouteServiceImpl routeService;
+    @Autowired
+    RouteSceneryServiceImpl routeSceneryService;
     @RequestMapping(value = "/search", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
     public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String date,
                                     @RequestParam("longitude") String longitude,
@@ -130,7 +134,16 @@ public class SearchController {
 
         return JSON.toJSONString(resultList);
     }
-
-
-
+    @RequestMapping(value = "/route", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
+    public void route(HttpServletRequest req,
+                        @RequestParam("sceneryid")List<String> sceneryids,
+                        @RequestParam("userid")String userid,
+                        @RequestParam("routename")String routename){
+        Long id=routeService.maxid()+1;
+        String routeid=id.toString();
+        routeService.add(routeid,userid,routename);
+        for(String sceneryid :sceneryids){
+             routeSceneryService.add(routeid,sceneryid);
+        }
+    }
 }

@@ -82,4 +82,5 @@ public class SceneryServiceImpl {
         }
         return list;
     }
+    public String getSupport(String sceneryid){return sceneryDao.selectById(sceneryid).getSupport().toString();}
 }

@@ -109,7 +109,7 @@ public class SceneryController {
         return result;
     }
     @RequestMapping(value ="/support",method = RequestMethod.POST)
-    public void supportchange(HttpServletRequest req,
+    public String supportchange(HttpServletRequest req,
                               @RequestParam("support") String support,
                               @RequestParam("userid") String userid,
                               @RequestParam("sceneryid") String sceneryid){
@@ -121,5 +121,7 @@ public class SceneryController {
             sceneryService.unsupport(sceneryid);
             scenerySupportService.unsupport(sceneryid,userid);
         }
+        String num=sceneryService.getSupport(sceneryid);
+        return num;
     }
 }

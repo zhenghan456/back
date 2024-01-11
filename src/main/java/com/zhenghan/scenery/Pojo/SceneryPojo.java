@@ -43,4 +43,6 @@ public class SceneryPojo {
 
     public void setSupport(Integer support) {this.support=support;
     }
+
+    public String getSceneryname() { return this.sceneryname;}
 }

@@ -31,7 +31,7 @@ public class MainController {
     SceneryLabelServiceImpl sceneryLabelService;
     @Autowired
     RecallServiceImpl recallService;
-    @RequestMapping(value = "/main",method = RequestMethod.GET)
+    @RequestMapping(value = "/main", produces = "application/json; charset=UTF-8",method = RequestMethod.GET)
     public String maininformation(HttpServletRequest req,
                                   @RequestParam("userid") String userid,
                                   @DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z")String date) throws ParseException {

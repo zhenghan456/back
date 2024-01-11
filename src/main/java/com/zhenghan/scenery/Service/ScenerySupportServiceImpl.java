@@ -7,6 +7,9 @@ import com.zhenghan.scenery.issupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ScenerySupportServiceImpl {
     @Autowired
@@ -28,5 +31,16 @@ public class ScenerySupportServiceImpl {
         wrapper.eq("sceneryid",sceneryid);
         wrapper.eq("userid",userid);
         scenerySupportDao.delete(wrapper);
+    }
+    public List<String> findById(String userid){
+        QueryWrapper<ScenerySupportPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("userid",userid);
+        List<ScenerySupportPojo> scenerys=scenerySupportDao.selectList(wrapper);
+        List<String> ids=new ArrayList<>();
+        for(ScenerySupportPojo scenery : scenerys){
+            String id=scenery.getSceneryid();
+            ids.add(id);
+        }
+        return ids;
     }
 }

@@ -33,7 +33,7 @@ public class SearchController {
     SceneryLabelServiceImpl sceneryLabelService;
     @Autowired
     RecallServiceImpl recallService;
-    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    @RequestMapping(value = "/search", produces = "application/json; charset=UTF-8",method = RequestMethod.POST)
     public String searchinformation(@DateTimeFormat(pattern = "yyyy-MM-dd’T’HH:mm:ss.SSS’Z’") String date,
                                     @RequestParam("longitude") String longitude,
                                     @RequestParam("latitude") String latitude,

@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value="scenery_support")
-public class ScenerySupportPojo {
+@TableName(value="routescenery")
+public class RouteSceneryPojo {
+    @TableField("routeid")
+    private String routeid;
     @TableField("sceneryid")
     private String sceneryid;
-    @TableField("userid")
-    private String userid;
     public String getSceneryid(){return this.sceneryid;}
 }

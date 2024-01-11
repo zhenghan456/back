@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -69,4 +70,16 @@ public class SceneryServiceImpl {
     public String getTime(String id){return sceneryDao.selectById(id).getTime();}
     public String getLongitude(String id){return sceneryDao.selectById(id).getLongitude();}
     public String getLatitude(String id){return sceneryDao.selectById(id).getLatitude();}
+
+    public List<String> upload(String userid) {
+        QueryWrapper<SceneryPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("userid",userid);
+        List<SceneryPojo> scenerys=sceneryDao.selectList(wrapper);
+        List<String> list=new ArrayList<>();
+        for(SceneryPojo scenery : scenerys){
+            String sceneryid=scenery.getSceneryid();
+            list.add(sceneryid);
+        }
+        return list;
+    }
 }

@@ -84,7 +84,7 @@ public class SceneryController {
 
     }
 
-    @RequestMapping(value = "/sceneryinformation", method = RequestMethod.POST)
+    @RequestMapping(value = "/sceneryinformation", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public String sceneryinformation(HttpServletRequest request,
                                      @RequestParam("sceneryid") String sceneryid,

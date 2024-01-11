@@ -5,9 +5,8 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zhenghan.scenery.Pojo.SceneryLabelPojo;
-import com.zhenghan.scenery.Pojo.SceneryPojo;
-import com.zhenghan.scenery.Pojo.UserPojo;
+import com.zhenghan.scenery.Dao.SceneryDao;
+import com.zhenghan.scenery.Pojo.*;
 import com.zhenghan.scenery.Service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,10 @@ class SceneryApplicationTests {
     ScenerySupportServiceImpl scenerySupportService;
     @Autowired
     SceneryLabelServiceImpl sceneryLabelService;
+    @Autowired
+    RouteServiceImpl routeService;
+    @Autowired
+    RouteSceneryServiceImpl routeSceneryService;
     @Test
     void contextLoads() throws JsonProcessingException, ParseException {
         String search="丁真";
@@ -133,16 +136,26 @@ class SceneryApplicationTests {
     }
     @Test
     void contextLoads4() throws ParseException {
-        String support="no";
-        String sceneryid="1";
         String userid="1";
-        if(support.equals("yes")){
-            sceneryService.support(sceneryid);
-            scenerySupportService.support(sceneryid,userid);
+        List<String> routeids=routeService.findById(userid);
+        List<RoutePojo> routes=routeService.findroute(userid);
+        List<Route> result=new ArrayList<>();
+        for(int i=0;i<routeids.size();i++){
+            String routeid=routeids.get(i);
+            RoutePojo route=routes.get(i);
+            List<Object> firstlist=new ArrayList<>();
+            firstlist.add(route);
+            List<String> sceneryids=routeSceneryService.findByid(routeid);
+            List<Pictrues> list=new ArrayList<>();
+            for(String sceneryid :sceneryids){
+                List<PictruesPojo> pictrues=pictruesService.findPictruesById(sceneryid);
+                Pictrues pictrue=new Pictrues(pictrues);
+                list.add(pictrue);
+            }
+            firstlist.addAll(list);
+            Route route1=new Route(firstlist);
+            result.add(route1);
         }
-        else{
-            sceneryService.unsupport(sceneryid);
-            scenerySupportService.unsupport(sceneryid,userid);
-        }
+        System.out.println(JSON.toJSONString(result));
     }
 }
